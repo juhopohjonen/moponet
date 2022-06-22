@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="modal" id="modal-1" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" class="close" role="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <h5 class="modal-title">Harmittaako?</h5>
+      <p>
+        Harmittais muaki, jos unohtaisin salasanani, varsinkin näin hyvään palveluun ;D. No, anyways, en tunne sääliä.
+      </p>
+      <div class="text-right mt-20"> <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
+        <a href="#" class="btn mr-5" role="button">Sulje</a>
+        <a href="#" class="btn btn-primary" role="button">{{ swear_word }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+    <h1>Kirjaudu sisään</h1>
+
+    <form method="post" class="w-400 mw-full"> <!-- w-400 = width: 40rem (400px), mw-full = max-width: 100% -->
+        <!-- Input -->
+        <div class="form-group">
+          <label for="username" class="required">Käyttäjänimi</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Käyttäjänimi" required="required">
+        </div>
+      
+        <div class="form-group">
+            <label for="password" class="required">Salasana</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Salasana" required="required">
+        </div>
+
+        <input name="csrf_token" type="hidden" value="{{ csrf_token() }}" b/>
+
+        <!-- Submit button -->
+        <input class="btn btn-primary" type="submit" value="Kirjaudu sisään">
+        <a href="#modal-1" class="btn" role="button">Unohditko salasanasi?</a>            
+            
+      </form>
+</div>
+{% endblock %}

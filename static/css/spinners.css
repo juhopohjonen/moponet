@@ -1,0 +1,46 @@
+body.sp {
+    background: #f3f6f9;
+    font-family: sans-serif;
+    font-weight: 100;
+    font-size: 14px;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  h1.sp {
+    color: #9398c9;
+    font-size: 48px;
+    font-family: sans-serif;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin: 20px;
+  }
+  
+  p.sp { margin: 20px; }
+  
+  a.sp {
+    color: #9398c9;
+  }
+  
+  .sp-grid {
+    overflow: hidden;
+  }
+  
+  .cell {
+    float: left;
+    width: 25%;
+    box-sizing: border-box;
+    padding: 20px;
+    display: table;
+  }
+  
+  .sp-card {
+    background: white;
+    border: 1px solid #c3c6cf;
+    border-radius: 15px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    height: 200px;
+  }
+  

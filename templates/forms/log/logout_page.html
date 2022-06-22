@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1>{{ title }}</h1>
+
+    {% if 'object' in session %}
+
+
+    <p>Voit kirjautua ulos tällä sivulla.</p>
+    
+    <form method="post">
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input class="btn btn-danger" type="submit" value="Kirjaudu ulos" />
+
+    </form>
+
+    {% else %}
+
+    <p>Olet nyt uloskirjautunut.</p>
+    <a class="btn btn-primary" href="{{ url_for('home') }}">Etusivulle</a>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

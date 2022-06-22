@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Rekisteröidy</h1>
+
+    <form action="javascript:signUpUser()" class="w-400 mw-full"> <!-- w-400 = width: 40rem (400px), mw-full = max-width: 100% -->
+        <!-- Input -->
+        <div class="form-group">
+          <label for="username" class="required">Käyttäjänimi</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Käyttäjänimi" required="required">
+        </div>
+      
+        <div class="form-group">
+            <label for="password" class="required">Salasana</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Salasana" required="required" minlength="8">
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="required">Sähköpostiosoite</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Sähköpostiosoite" required="required" minlength="5">
+        </div>
+
+
+      
+        <!-- Checkbox -->
+        <div class="form-group">
+          <div class="custom-checkbox">
+            <input type="checkbox" id="derbi">
+            <label for="derbi">{{ paskaMopo }} on paska mopo</label>
+          </div>
+        </div>
+      
+        <!-- Submit button -->
+        <input class="btn btn-primary" type="submit" value="Submit">
+      </form>
+</div>
+
+<script>
+  // CSRF token for CSRF protection.
+
+  var csrf_token = "{{ csrf_token() }}";
+  var request_url = '{{ url_for("signup") }}';
+
+</script>
+
+
+<script src="{{ url_for('static', filename='js/loginpage.js') }}"></script>
+
+
+{% endblock %}

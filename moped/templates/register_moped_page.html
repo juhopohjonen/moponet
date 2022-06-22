@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1>{{ title }}</h1>
+
+    <form method="post" class="w-400 mw-full" enctype="multipart/form-data"> <!-- w-400 = width: 40rem (400px), mw-full = max-width: 100% -->
+        <!-- Input -->
+        <div class="form-group">
+          <label for="brand" class="required">Merkki</label>
+          <input type="text" class="form-control" id="brand" name="brand" placeholder="Merkki" required="required">
+        </div>
+
+        <div class="form-group">
+            <label for="model" class="required">Malli</label>
+            <input type="text" class="form-control" id="model" name="model" placeholder="Merkki" required="required">
+        </div>
+
+        <div class="form-group">
+            <label for="model_year" class="required">Vuosimalli</label>
+            <input type="number" class="form-control" id="model_year" name="model_year" placeholder="Vuosimalli" required="required" min="1900" max="{{ currentYear }}">
+        </div>
+
+        <div class="form-group">
+          <label for="description" class="required">Kuvaus</label>
+          <textarea class="form-control" id="description" placeholder="Kirjoita kuvaus mopostasi." minlength="10" name="description" required></textarea>
+        </div>
+
+        <div class="custom-file mb-10">
+            <input type="file" name="file" id="multi-file-input-1" multiple="multiple" accept=".jpg,.png,.jpeg" required>
+            <label for="multi-file-input-1" class="required">Valitse kuvat</label>
+        </div>
+
+        <!-- Checkbox -->
+        <div class="form-group">
+          <div class="custom-checkbox">
+            <input type="checkbox" id="derbi">
+            <label for="derbi">Hyväksyn, että moponi ei sitten näytä aivan paskalta.</label>
+          </div>
+        </div>
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      
+        <!-- Submit button -->
+        <input class="btn btn-primary" type="submit" value="Rekisteröi">
+      </form>
+</div>
+
+<script>
+  // CSRF token for CSRF protection.
+
+  var csrf_token = "{{ csrf_token() }}";
+  var request_url = '{{ url_for("signup") }}';
+
+</script>
+
+
+<script src="{{ url_for('static', filename='js/loginpage.js') }}"></script>
+
+
+{% endblock %}

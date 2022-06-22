@@ -1,0 +1,10 @@
+{
+    "info": "THIS IS CONFIGURATION FILE OF moponet. INSERT BELOW RANDOM GENERATED SECRET KEY, APPLICATION WONT WORK WITHOUT IT. DONT REVEAL IT TO ANYBODY.",
+    "SECRET_KEY": "",
+    
+    "UPLOADS": {
+        "UPLOAD_FOLDER_PATH": "",
+        "ALLOWED_EXTENSIONS": ["jpg", "jpeg", "png", "gif"]
+    }
+    
+}
