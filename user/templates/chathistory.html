@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="card">
+    <h1 class="card-title">{{ title }}</h1>
+    
+    {% for message in messages %}
+
+    {% if message.sender_id == my_id %}
+
+    <div class="card w-400 ml-auto border" id="{{ message.unique_str }}">
+        <h2 class="card-title">Viesti minulta</h2>
+        <strong>{{ message.message }}</strong>
+    </div>
+
+    <br>
+
+    {% else %}
+
+    <div class="card w-400 border" id="{{ message.unique_str }}">
+        <h2 class="card-title">Viesti käyttäjältä {{ chat_partner.username }}</h2>
+        <strong>{{ message.message }}</strong>
+    </div>
+
+    <br>
+
+    {% endif %}
+
+    {% endfor %}
+    
+    <hr>
+
+    <div class="card mw-auto ml-auto border">
+        <h3 class="card-title">Lähetä viesti</h3>
+
+        <form method="post" action="{{ url_for('user.view', username=chat_partner.username) }}">
+            <div class="form-group">
+                <label for="message">Viesti</label>
+                <textarea class="form-control" id="message" name="message" placeholder="Kirjoita tähän viesti henkilölle {{ chat_partner.username }}" maxlength="100" minlength="5"></textarea>
+
+            </div>
+
+            <input type="hidden" value="directmessage" name="type" />
+            <input type="hidden" value="{{ csrf_token() }}" name="csrf_token" />
+            <input type="hidden" value="{{ chat_partner.id }}" name="recipient_id" />
+
+            <div class="text-right">
+                <input class="btn btn-primary" type="submit" value="Lähetä viesti">
+            </div>
+        </form>
+    </div>
+    
+
+</div>
+
+{% endblock %}

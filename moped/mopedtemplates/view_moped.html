@@ -1,0 +1,232 @@
+{% extends "layout.html" %}
+
+{% block addHead %}
+<script>
+    var likeStatusApiUrl = {{ likeStatusAPI|tojson }}
+    var likeApiUrl = {{ LikeApi|tojson }}
+    var csrftoken = '{{ csrf_token() }}';
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="w-600 mw-full">
+
+        <div class="card p-0">
+            <img src="{{ firstfile }}" class="mw-full" style="min-width: 450px; margin: auto; display: block;" class="img-fluid rounded-top">
+
+            <div class="content">
+                <h1 class="content-title">{{ title }}</h1>
+
+                {% if related_data['likes'] != None %}
+
+                <span class="badge"> <!-- ml-5 = margin-left: 0.5rem (5px) -->
+                    <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> {{ related_data['likes']|length }} tykkäystä
+                </span>
+
+                {% else %}
+
+                <span class="badge"> <!-- ml-5 = margin-left: 0.5rem (5px) -->
+                    <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 0 tykkäystä
+                </span>
+
+                {% endif %}
+
+                {% if related_data['comments'] != None %}
+
+                <span class="badge ml-5">
+                    <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> {{ related_data['comments']|length }} kommenttia
+                </span>
+
+                {% else %}
+
+                <span class="badge ml-5">
+                    <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> 0 kommenttia
+                </span>
+                
+                {% endif %}
+
+            </div>
+
+
+
+            <hr>
+
+            <div class="content">
+                <strong>Omistajan kirjoittama kuvaus</strong>
+                <br>
+                "{{ moped.description }}"
+            </div>
+
+            <hr>
+
+            <div class="content">
+
+                <h3 class="content-title">Nippelitietoa</h3>
+
+                <div>
+                    <strong>Merkki</strong>
+                    <br />
+                    <i class="fa-solid fa-motorcycle"></i> {{ moped.brand }}
+                  </div>
+                  <hr />
+                  <div>
+                    <strong>Malli</strong>
+                    <br />
+                    <i class="fa-solid fa-car-on"></i> {{ moped.model }}
+                  </div>
+                  <hr />
+                  <div>
+                    <strong>Vuosimalli</strong>
+                    <br />
+                    <i class="fa-regular fa-calendar-days"></i> {{ moped.model_year }}
+                  </div>
+                  <hr>
+                  <div>
+                    <strong>Omistaja</strong>
+                    <br />
+                    <i class="fa-solid fa-id-card"></i> <a class="text-light" href="{{ url_for('user.view', username=moped.owner_username) }}">{{ moped.owner_username }}</a>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="card mw-full border">
+                <h3 class="card-title"><i class="fa-solid fa-heart"></i> Tykkää moposta</h3>
+
+                {# 
+                    show login prompt
+                    if user has not
+                    logged in, 
+                    else show spinner. front end (mopedlikeload.js)
+                    handles liking.
+
+                #}
+
+                {% if 'object' in session %}
+                
+                <!-- 
+                    spinner displayed as default
+                    frontend (mopedlikeload.js) sets display: block
+                    in case of need.
+                 -->
+                <div class="spinner" id="likeSpinner">
+                    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                </div>
+
+                <div class="like" style="display: none;" id="likeButton">
+                    <button onclick="like(1)" class="btn btn-primary"><i class="fa-solid fa-thumbs-up"></i> Tykkää</button>
+                </div>
+
+                <div class="like" style="display: none;" id="disLikeButton">
+                    <button onclick="like(0)" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Poista tykkäys</button>
+                </div>
+
+                {% else %}
+                <p>Kirjaudu sisään tykätäksesi tästä.</p>
+                <p class="text-right mt-10">
+                    <a class="btn btn-primary" href="{{ url_for('signup') }}">Rekisteröidy</a>
+                    <a class="btn" href="{{ url_for('signup') }}" class="ml-5">Kirjaudu</a>
+                </p>
+
+                {% endif %}
+            </div> 
+        </div>
+
+    </div>
+
+    <div class="w-600 mw-full">
+        <div class="card p-0">
+            <div class="content">
+                <h2 class="content-title">Kommentit moposta</h2>
+                <strong>
+                    {% if related_data['comments'] != None and related_data['comments']|length == 0 %}
+                    
+                    <i class="fa-solid fa-money-bill-1-wave"></i> Kukaan ei ole vielä kommentoinut. Kommentoi ensimmäisenä!
+                    
+                    {% elif related_data['comments'] != None %}
+
+                    <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> Tätä mopoa on kommentoitu {{ related_data['comments']|length }} kertaa.
+                    Liity mukaan keskusteluun!
+                    
+                    {% endif %}
+                </strong>
+                <hr>
+
+                <div class="content">
+
+                    {# Only show comment-form if user is signed in #}
+                    {% if 'object' in session %}
+
+                    <form method="post" action="{{ url_for('moped.comment') }}">
+                        <div class="form-group">
+                            <label for="comment" class="required"><strong><i class="fa-solid fa-square-pen"></i> Kirjoita kommentti</h3></strong></label>
+                            <textarea class="form-control" id="comment" placeholder="Kirjoita kommentti." minlength="5" name="comment" required></textarea>
+                        </div>
+
+                        {# pass csrf token in form #}
+                        <input type="hidden" value="{{ csrf_token() }}" name="csrf_token" />
+
+                        {# pass moped id in form #}
+                        <input type="hidden" value="{{ moped.id }}" name="moped_id" />
+
+                        <div class="text-right">
+                            <input class="btn btn-primary" value="Julkaise" type="submit" />
+                        </div>
+                    </form>
+
+                    {% else %}
+
+                    <div>
+
+                        <strong>Kirjaudu sisään!</strong>
+                        <br>
+                        Muistathan kirjautua sisään, jotta voit kommentoida tätä mopoa.
+                        <br>
+
+                            <div class="mt-5">
+
+                                <a class="btn btn-primary" href="{{ url_for('signup') }}">Rekisteröidy</a>
+                                <a class="btn ml-5" href="{{ url_for('login') }}">Kirjaudu</a>
+                            
+                            </div>
+                    
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+                
+                <hr>
+
+
+                {% for comment in related_data['comments'] %}
+                <div class="card border" id="comment-{{ comment.id }}">
+                    <strong><i class="fa-solid fa-id-card"></i> 
+                        <a class="text-white" href="{{ url_for('user.view', username=comment.commenter_username) }}"> {{ comment.commenter_username }}</a></strong>
+                    <hr>
+                    <i>{{ comment.content }}</i>
+                </div>
+                {% endfor %}
+            </div>
+
+            
+
+        </div>
+    </div>
+</div>
+
+{#
+    mopedlikeload.js loads only 
+    if user has liked: only logged in users can like.
+    do not run script is user has not logged in.
+#}
+
+{% if 'object' in session %}
+<script src="{{ url_for('moped.static', filename='js/mopedlikeload.js') }}"></script>
+{% endif %}
+
+{% endblock %}

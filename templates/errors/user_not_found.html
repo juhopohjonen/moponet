@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+
+<div class="container">
+
+    <h1>{{ title }}</h1>
+
+    <div class="card alert alert-danger" role="alert">
+    <h4 class="alert-title">Virheilmoitus</h4>
+    <p>Valitettavasti antamillasi tiedoilla ei löytynyt käyttäjätiliä.
+        <br>
+        Onneksi hätää ei ole, sillä voit aina yrittää uudestaan.
+    </p>
+
+    <a href="{{ url_for('login') }}" class="btn">Yritä uudestaan</a>
+
+    </div>
+</div>
+
+
+{% endblock %}

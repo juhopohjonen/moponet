@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+        <h1>Yksityisviestit</h1>
+
+        {% if senders|length > 0 %}
+
+        <ul>
+        {% for sender in senders %}
+            <li><a href="{{ url_for('user.chatView', username=sender.username) }}" class="badge badge-lg"><i class="fa-solid fa-person"></i> {{ sender.username }}</a></li>
+        {% endfor %}
+        </ul>
+        {% else %}
+
+        <strong>Et ole lähettänyt, eikä sinulle olla lähetetty yhtään viestiä.</strong>
+
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h2 class="card-title">Yksityisviestin lähettäminen</h2>
+        <p>Voit lähettää yksityisviestin valitsemalla käyttäjäprofiilista 'Lähetä yksityisviesti' -näppäimen.</p>
+    </div>
+</div>
+
+{% endblock %}

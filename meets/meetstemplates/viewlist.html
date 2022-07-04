@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block addHead %}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+crossorigin=""></script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="content">
+        <h1 class="content-title">
+            {{ title }}
+        </h1>
+        Sivustoltamme löydät mopomiitit joka lähtöön. Miltä kuulostaisi klo 02.00 Supermarketin parkkipaikalla? Tai 04.30 Kaakkurin (keula)suoralla? Ei muuta kuin 
+        suunnittelemaan.
+    </div>
+
+    <div class="card">
+        <h2 class="card-title">Mopomiittikartta</h2>
+        <strong>Löydä helposti lähimmät mopomiitit vain karttaa selaamalla!</strong> <i>Näytetään vain tulevat miitit.</i>
+
+        <div id="map" class="h-550 mt-5"></div>
+    </div>
+
+</div>
+
+<script>
+    var fetchUrl = "{{ url_for('meets.fetchmeets') }}";
+    var csrf_token = "{{ csrf_token() }}";
+    var viewurl = "{{ url_for('meets.view') }}";
+
+    var zoomlevel = 5;
+</script>
+
+<script src="{{ url_for('meets.static', filename='js/mapbase.js') }}"></script>
+<script src="{{ url_for('meets.static', filename='js/viewmap.js') }}"></script>
+
+{% endblock %}

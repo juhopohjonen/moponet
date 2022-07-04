@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <!-- Meta tags -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta name="viewport" content="width=device-width" />
+
+  <!-- Favicon and title -->
+  <!-- <link rel="icon" href="path/to/fav.png"> -->
+  <title>{{ title }} - Moponet</title>
+
+  <!-- Halfmoon CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/spinners.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mainstuff.css') }}">
+
+  <script src="https://kit.fontawesome.com/ecd48bff06.js" crossorigin="anonymous"></script>
+
+
+
+  {% block addHead %}
+  {% endblock %}
+</head>
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars dark-mode" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
+  <!-- Modals go here -->
+
+  {% block addmodal %}
+  {% endblock %}
+ 
+  <!-- Reference: https://www.gethalfmoon.com/docs/modal -->
+
+  <!-- Page wrapper start -->
+  <div class="page-wrapper with-navbar">
+
+    <!-- Sticky alerts (toasts), empty container -->
+    <!-- Reference: https://www.gethalfmoon.com/docs/sticky-alerts-toasts -->
+    <div class="sticky-alerts"></div>
+
+    <nav class="navbar">
+        <!-- Navbar content (with toggle sidebar button) -->
+        <div class="navbar-content">
+
+        </div>
+        <!-- Navbar brand -->
+        <a href="{{ url_for('home') }}" class="navbar-brand">
+            Moponet
+        </a>
+        <!-- Navbar text -->
+        <span class="navbar-text text-monospace">v0.1</span> <!-- text-monospace = font-family shifted to monospace -->
+        <!-- Navbar nav -->
+        <ul class="navbar-nav d-none d-md-flex"> <!-- d-none = display: none, d-md-flex = display: flex on medium screens and up (width > 768px) -->
+          
+          <!--
+          <li class="nav-item">
+            <a href="{{ url_for('moped.view_list') }}" class="nav-link">Selaa mopoja</a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url_for('moped.register') }}" class="nav-link">Lisää moposi</a>
+          </li>
+        -->
+          <li class="nav-item dropdown with-arrow">
+            <a class="nav-link" data-toggle="dropdown" id="maptoggle">
+              Mopot 
+              <i class="fa fa-angle-down ml-5" aria-hidden="true"></i> <!-- ml-5= margin-left: 0.5rem (5px) -->
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="maptoggle">
+              <a href="{{ url_for('moped.view_list') }}" class="dropdown-item">Selaa mopoja</a>
+              <a href="{{ url_for('moped.register') }}" class="dropdown-item">Rekisteröi mopo</a>
+            </div>
+          </li>
+
+          {% if 'object' in session %}
+          <li class="nav-item dropdown with-arrow">
+            <a class="nav-link" data-toggle="dropdown" id="nav-link-dropdown-toggle">
+              Käyttäjät 
+              <i class="fa fa-angle-down ml-5" aria-hidden="true"></i> <!-- ml-5= margin-left: 0.5rem (5px) -->
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="nav-link-dropdown-toggle">
+              <a href="{{ url_for('user.my_profile') }}" class="dropdown-item">Oma profiili</a>
+              <a href="{{ url_for('user.senderList') }}" class="dropdown-item">Yksityisviestit</a>
+
+            </div>
+          </li>
+          {% endif %}
+
+          <li class="nav-item dropdown with-arrow">
+            <a class="nav-link" data-toggle="dropdown" id="maptoggle">
+              Mopomiitit 
+              <i class="fa fa-angle-down ml-5" aria-hidden="true"></i> <!-- ml-5= margin-left: 0.5rem (5px) -->
+            </a>
+  
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="maptoggle">
+              <a href="{{ url_for('meets.view_list') }}" class="dropdown-item">Selaa mopomiittejä</a>
+              <a href="{{ url_for('meets.organize') }}" class="dropdown-item">Järjestä mopomiitti</a>
+            </div>
+          </li>
+        </ul>
+
+
+        <!-- Navbar form (inline form) -->
+
+
+        
+        <div class="d-none d-md-flex ml-auto">
+
+          {% if 'object' not in session %}
+          <a class="btn btn-primary mr-5" href="{{ url_for('signup') }}">Rekisteröidy</a>
+          <a class="btn" href="{{ url_for('login') }}">Kirjaudu</a>
+
+          {% else %}
+
+          <a class="nav-item" href="{{ url_for('logout') }}">Kirjaudu ulos</a>
+          {% endif %}
+        </div>
+        
+        <!-- Navbar content (with the dropdown menu) -->
+        <div class="navbar-content d-md-none ml-auto"> <!-- d-md-none = display: none on medium screens and up (width > 768px), ml-auto = margin-left: auto -->
+          
+        </div>
+
+
+      </nav>
+    
+
+    <!-- Content wrapper start -->
+    <div class="content-wrapper">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <!-- Content wrapper end -->
+
+  </div>
+  <!-- Page wrapper end -->
+
+  <!-- Halfmoon JS -->
+  <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+</body>
+</html>

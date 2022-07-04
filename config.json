@@ -1,0 +1,31 @@
+{
+    "info": "THIS IS CONFIGURATION FILE OF moponet. INSERT BELOW RANDOM GENERATED SECRET KEY, APPLICATION WONT WORK WITHOUT IT. DONT REVEAL IT TO ANYBODY.",
+    "SECRET_KEY": "secret_key_here",
+
+    "RENDERED_MOPED_OBJECTS": 20,
+    
+    "UPLOADS": {
+        "MOPEDIMAGE_UPLOAD_FOLDER_PATH": "/insert/here/path/where/images/are/stored",
+        "ALLOWED_EXTENSIONS": ["jpg", "jpeg", "png", "gif"]
+    },
+
+    "discord_oauth": {
+        "info": "CLIENT ID is the CLIENT ID from discord dev portal.",
+        "addinfo": "FOR more info, refer to discord OAUTH2 docs",
+
+        "redirect_info": "redirect_url is endpoint for discord api requests. defaults to http://url/user/auth.",
+        "clientid_info": "client_id is discord app client id. for more: discord.com/developers/applications",
+        "secret_info": "client_secret is discord app secret key in app dashboard. for more: discord.com/developers/applications",
+
+        "CLIENT_ID": "",
+        "CLIENT_SECRET": "",
+        
+        "redirect_url": "http://localhost/user/discord/auth",
+
+        "API_ENDPOINT": "https://discord.com/api/v10",
+        "USER_INFO_ENDPOINT": "https://discordapp.com/api/users/@me"
+    },
+
+    "REMEMBER_ME_LIFETIME_DAYS": 90
+    
+}

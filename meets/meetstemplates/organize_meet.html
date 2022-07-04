@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block addHead %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+crossorigin=""></script>
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="container">
+
+    <div class="card alert alert-danger" role="alert" style="display: none;" id="nocoords">
+        <div class="content">
+            <h4 class="alert-title">Et ole antanut sijaintia!</h4>
+                <p>Mopomiitin sijainti on pakollinen.
+                    <br>
+                    Miten muut voisivat tietää missä mopomiitti järjestetään? Anna sijainti klikkaamalla karttaa.
+                </p>
+            </div>
+        </div>
+
+    <div class="content">
+        <h1>Järjestä mopomiitti</h1>
+        <p>Mopomiitin järjestäminen on onneksi helppoa. Haluatko paljon jengiä paikallisen marketin pihalle? Haluatko mennä keulimaan suoralle? Vai haluatko vain polttaa kumia ilman huolia? Olet tullut oikeaan paikkaan, sillä mopomiitin
+             järjestäminen onnistuu juuri tältä sivulta.
+        </p>
+    </div>
+
+    {% if 'object' in session %}
+
+    <div class="card border">
+        <form action="javascript:createmeet()" method="POST">
+            <div class="form-group">
+                <label for="name" class="required">Tapahtuman nimi</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Tapahtuman nimi" required="required">
+            </div>
+
+            <div class="form-group">
+                <label for="map" class="required">Valitse miittipaikka klikkaamalla karttaa</label>
+                <div id="map" class="h-300 mw-full mt-5"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="description" class="required">Kuvaus</label>
+                <textarea class="form-control" id="description" placeholder="Kirjoita kuvaus mopomiitistä." minlength="10" name="description" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="date" class="required">Päivämäärä</label>
+                <input type="date" class="form-control" id="date" required />
+            </div>
+ 
+            <div class="text-right">
+                <button class="btn btn-primary">Järjestä mopomiitti</button>
+            </div>
+        </form>
+    </div>
+
+    {% else %}
+
+    <div class="card">
+        <h5>Sinun on kirjauduttava luodaksesi miitin.</h5>
+    </div>
+ 
+    {% endif %}
+
+</div>
+
+
+
+<script>
+    var csrf_token = "{{ csrf_token() }}";
+    var createUrl = "{{ url_for('meets.create_meet') }}";
+
+    document.getElementById('date').min = new Date().toISOString().split("T")[0];
+
+</script>
+
+<script src="{{ url_for('meets.static', filename='js/mapbase.js') }}"></script>
+<script src="{{ url_for('meets.static', filename='js/organizemeet.js') }}"></script>
+
+{% endblock %}

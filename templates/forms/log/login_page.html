@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block addmodal %}
+<div class="modal" id="modal-1" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" class="close" role="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <h5 class="modal-title">Harmittaako?</h5>
+      <p>
+        Harmittais muaki, jos unohtaisin salasanani, varsinkin näin hyvään palveluun.
+      </p>
+      <div class="text-right mt-20"> <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
+        <a href="#" class="btn mr-5" role="button">Ei</a>
+        <a href="#" class="btn btn-primary" role="button">Harmittaa</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="content">
+    <h1>Kirjaudu sisään</h1>
+  </div>
+  
+    <div class="card mw-full border">
+
+      <h2 class="card-title">Kirjaudu käyttäjänimellä ja salasanalla</h2>
+
+      <hr>
+
+      <form method="post" class="w-400 mw-full"> <!-- w-400 = width: 40rem (400px), mw-full = max-width: 100% -->
+        <!-- Input -->
+        <div class="form-group">
+          <label for="username" class="required">Käyttäjänimi</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Käyttäjänimi" required="required">
+        </div>
+      
+        <div class="form-group">
+            <label for="password" class="required">Salasana</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Salasana" required="required">
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+          <div class="custom-switch">
+            <input type="checkbox" id="remember" name="remember">
+            <label for="remember">Muista minut <i class="fa-solid fa-id-badge ml-4"></i></label>
+          </div>
+        </div>        
+
+        <input name="csrf_token" type="hidden" value="{{ csrf_token() }}" />
+
+        <!-- Submit button -->
+        <input class="btn btn-primary" type="submit" value="Kirjaudu sisään">
+        <a href="#modal-1" class="btn" role="button">Unohditko salasanasi?</a>            
+              
+      </form>
+    </div>
+
+
+    <div class="card mw-full border">
+      <h2 class="card-title">Kirjaudu toisen palvelun avulla</h2>
+      <a class="btn btn-success" href="{{ url_for('user.discord_login') }}">Kirjaudu Discordin avulla</a>
+    </div>
+</div>
+{% endblock %}

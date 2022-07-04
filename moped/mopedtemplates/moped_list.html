@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+<div class="container">
+
+  
+
+  <h1>{{ title }}</h1>
+  
+
+  <div class="content">
+
+    
+    <h2 class="content-title">Mopolista
+    </h2>
+
+    {% if mopeds|length == 0 %}
+    <p>Mopoja ei valitettavasti löytynyt valitsillasi kriteereillä.</p>
+    {% endif %}
+
+    <div class="row">
+      {% for moped in mopeds %}
+      <div class="col">
+
+        <div class="w-400 mw-full"> <!-- w-400 = width: 40rem (400px), mw-full = max-width: 100% -->
+            <div class="card p-0"> <!-- p-0 = padding: 0 -->
+              <img class="mw-full" style="display: block; margin: auto;" src="{{ url_for('moped.mopedimages', name=moped['default_image']) }}"><!-- rounded-top = rounded corners on the top -->
+              
+              
+              <div class="content">
+                <h2 class="content-title">
+                  {{ moped['object'].brand }} {{ moped['object'].model }}
+                </h2>
+
+                {% if moped['likes'] != None %}
+
+                <span class="badge"> 
+                  <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> {{ moped['likes']|length }} tykkäystä
+                </span>
+
+                {% else %}
+
+                <span class="badge"> 
+                  <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 0 tykkäystä
+                </span>
+
+                {% endif %}
+
+
+                <!-- comments -->
+
+                {% if moped['comments'] != None %}
+
+                <span class="badge">
+                  <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> {{ moped['comments']|length }} kommenttia
+                </span>
+
+                {% else %}
+
+                <span class="badge">
+                  <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> 0 kommenttia
+                </span>
+
+                {% endif %}
+  
+              </div>
+
+              <hr>
+            
+              <div>
+                <div class="content">
+                  <h2 class="content-title">
+                    <i class="fa-solid fa-circle-info"></i> Tietoja moposta
+                  </h2>
+                  <div>
+                    <strong>Merkki</strong>
+                    <br />
+                    <i class="fa-solid fa-motorcycle"></i> {{ moped['object'].brand }}
+                  </div>
+                  <hr />
+                  <div>
+                    <strong>Malli</strong>
+                    <br />
+                    <i class="fa-solid fa-car-on"></i> {{ moped['object'].model }}
+                  </div>
+                  <hr />
+                  <div>
+                    <strong>Vuosimalli</strong>
+                    <br />
+                    <i class="fa-regular fa-calendar-days"></i> {{ moped['object'].model_year }}
+                  </div>
+                  <hr>
+                  <div>
+                    <strong>Omistaja</strong>
+                    <br />
+                    <i class="fa-solid fa-id-card"></i> <a class="text-light" href="{{ url_for('user.view', username=moped['object'].owner_username) }}">{{ moped['object'].owner_username }}</a>
+                  </div>
+
+                  <div class="text-right"> <!-- text-right = text-align: right -->
+                    <a href="{{ url_for('moped.view', id=moped['object'].id) }}" class="btn">Tsekkaa mopo</a>
+                  </div>
+
+              </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+
+    </div>
+
+    {% if mopeds|length > 0 and mopeds|length == 20 %}
+    <a class="btn btn-primary w-full m-auto d-block" href="{{ url_for('moped.view_list', start=startvalue+20) }}">Lataa lisää...</a>
+    {% endif %}
+  </div>
+
+</div>
+
+<script>
+  var fetchMopedURL = '{{ fetchMopedURL }}';
+  var csrf_token = '{{ csrf_token() }}';
+
+</script>
+<script src="{{ url_for('moped.static', filename='js/loadmopeds.js') }}"></script>
+
+{% endblock %}
