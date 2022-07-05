@@ -44,3 +44,6 @@ To start the server application you first need to set up the config.json -file. 
 ### Varoitus!
 Sovellus sisältää huumoria!
 
+![Screenshot from 2022-07-05 14-45-32](https://user-images.githubusercontent.com/56920198/177320351-a468885a-4dd6-4347-824c-51484656c1ce.png)
+![Screenshot from 2022-07-05 14-45-40](https://user-images.githubusercontent.com/56920198/177320362-380af8a0-a157-4d0b-bb1b-b5a2cccdd14e.png)
+![Screenshot from 2022-07-05 14-45-54](https://user-images.githubusercontent.com/56920198/177320368-df5da06b-099e-450b-96e4-f4ab9c9f9fb0.png)
